@@ -2,4 +2,4 @@
 
 ## Twitter Kaizen
 
-https://github.com/yossy17/Tampermonkey-Box/blob/main/Twitter_Kaizen.js
+https://github.com/yossy17/Tampermonkey-Box/blob/main/Twitter_Kaizen/Twitter_Kaizen.js
