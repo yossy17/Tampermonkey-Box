@@ -1,5 +1,5 @@
-# Tampermonkey-Box
+# 自作Userscriptのため場
 
-## 自作Userscriptのため場
+## Twitter Kaizen
 
-https://github.com/account_name/repo_name/blob/7d7c9f4d6b57671117e97d48c7434b504db28a25/file_name
+https://github.com/yossy17/Tampermonkey-Box/blob/main/Twitter_Kaizen.js
