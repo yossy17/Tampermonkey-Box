@@ -2,14 +2,14 @@
 // @name                Twitter kaizen
 // @name:ja             Twitter kaizen
 // @name:en             Twitter kaizen
-// @name:zh-CN             Twitter kaizen
+// @name:zh-CN          Twitter kaizen
 // @name:ko             Twitter kaizen
 // @name:ru             Twitter kaizen
 // @name:de             Twitter kaizen
 // @description         Twitterの表示を改善するスクリプト
 // @description:ja      Twitterの表示を改善するスクリプト
 // @description:en      Script to improve Twitter display
-// @description:zh-CN      改善Twitter显示的脚本
+// @description:zh-CN   改善Twitter显示的脚本
 // @description:ko      트위터 표시를 개선하는 스크립트
 // @description:ru      Скрипт для улучшения отображения Twitter
 // @description:de      Skript zur Verbesserung der Twitter-Anzeige
