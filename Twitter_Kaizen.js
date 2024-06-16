@@ -14,8 +14,8 @@
 // @icon                https://www.google.com/s2/favicons?sz=64&domain=x.com
 // @license             GPL
 // @run-at              document-start
-// @downloadURL
-// @updateURL
+// @downloadURL         https://github.com/yossy17/Tampermonkey-Box/blob/main/Twitter_Kaizen.js
+// @updateURL           https://github.com/yossy17/Tampermonkey-Box/blob/main/Twitter_Kaizen.js
 // @require             https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/js/all.min.js
 // @grant               GM_addStyle
 // ==/UserScript==
