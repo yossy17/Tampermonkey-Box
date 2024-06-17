@@ -13,7 +13,7 @@
 // @description:ko      트위터 표시를 개선하는 스크립트
 // @description:ru      Скрипт для улучшения отображения Twitter
 // @description:de      Skript zur Verbesserung der Twitter-Anzeige
-// @version             1.0.3
+// @version             1.0.1
 // @author              Yos_sy17
 // @match               https://x.com/*
 // @namespace           http://tampermonkey.net/
