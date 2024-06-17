@@ -13,7 +13,7 @@
 // @description:ko      트위터 표시를 개선하는 스크립트
 // @description:ru      Скрипт для улучшения отображения Twitter
 // @description:de      Skript zur Verbesserung der Twitter-Anzeige
-// @version             1.0
+// @version             1.0.2
 // @author              Yos_sy17
 // @match               https://x.com/*
 // @namespace           http://tampermonkey.net/
@@ -22,13 +22,11 @@
 // @run-at              document-start
 // @require             https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/js/all.min.js
 // @grant               GM_addStyle
-// @downloadURL https://update.greasyfork.org/scripts/498115/Twitter%20kaizen.user.js
-// @updateURL https://update.greasyfork.org/scripts/498115/Twitter%20kaizen.meta.js
 // ==/UserScript==
-
+ 
 (function () {
   "use strict";
-
+ 
   // -----------------------------------------------------------------------------------
   // CSS
   // -----------------------------------------------------------------------------------
@@ -52,7 +50,7 @@
         .r-eqz5dr[href="/home"] > div > div > svg > g > path{
           d: path('M12,1.696 L0.622,8.807l1.06,1.696L3,9.679V19.5C3,20.881 4.119,22 5.5,22h13c1.381,0 2.5,-1.119 2.5,-2.5V9.679l1.318,0.824 1.06,-1.696L12,1.696ZM12,16.5c-1.933,0 -3.5,-1.567 -3.5,-3.5s1.567,-3.5 3.5,-3.5 3.5,1.567 3.5,3.5 -1.567,3.5 -3.5,3.5Z') !important;
         }
-
+ 
         /* -----------------------------------------------------------------------------------
         基本的なボーダーを消す
         ----------------------------------------------------------------------------------- */
@@ -60,7 +58,7 @@
         .r-1igl3o0 {
           border: none !important;
         }
-
+ 
         /* -----------------------------------------------------------------------------------
         ヘッダーのスクロールバーを消す
         ----------------------------------------------------------------------------------- */
@@ -72,21 +70,21 @@
         .css-175oi2r.r-1pi2tsx.r-1wtj0ep.r-1rnoaur.r-o96wvk.r-is05cd::-webkit-scrollbar {
           display:none !important;
         }
-
+ 
         /* -----------------------------------------------------------------------------------
         サイドバーの”Subscribe to Premium”を消す
         ----------------------------------------------------------------------------------- */
         .css-175oi2r.r-1habvwh.r-eqz5dr.r-uaa2di.r-1mmae3n.r-3pj75a.r-bnwqim {
           display: none;
         }
-
+ 
         /* -----------------------------------------------------------------------------------
         サイドバーの”Who to follow”を消す
         ----------------------------------------------------------------------------------- */
         .css-175oi2r.r-1bro5k0 {
           display: none;
         }
-
+ 
         /* -----------------------------------------------------------------------------------
         TL上のUserNameを消す
         ----------------------------------------------------------------------------------- */
@@ -95,14 +93,14 @@
         .css-146c3p1.r-bcqeeo.r-1ttztb7.r-qvutc0.r-1qd0xha.r-a023e6.r-rjixqe.r-16dba41.r-1q142lx.r-n7gxbd {
           display: none;
         }
-
+ 
         /* -----------------------------------------------------------------------------------
         カキコの下のボーダーを消す
         ----------------------------------------------------------------------------------- */
         .r-109y4c4 {
           height: 0 !important;
         }
-
+ 
         /* -----------------------------------------------------------------------------------
         TLの幅を600pxから700pxに、右サイドバーの幅を350pxから250pxに変更
         ----------------------------------------------------------------------------------- */
@@ -112,7 +110,7 @@
         .r-1hycxz {
           width: 250px !important;
         }
-
+ 
         /* -----------------------------------------------------------------------------------
         サイドバーのWhat’s happeningのステータスを見やすく
         ----------------------------------------------------------------------------------- */
@@ -123,17 +121,17 @@
         .r-r2y082 {
           max-width: 100%;
         }
-
+ 
         /* -----------------------------------------------------------------------------------
        時計、日付のフォントカラーを変更
         ----------------------------------------------------------------------------------- */
-
+ 
         #date__container__text,
         #time__container__text {
           color: #e7e9ea;
         }
       `);
-
+ 
   // -----------------------------------------------------------------------------------
   // TLの時間を相対時間から絶対時間に変更(HH:MM:SS･mm/dd/yy, week)
   // -----------------------------------------------------------------------------------
@@ -145,19 +143,19 @@
     ru: ["Вс", "Пн", "Вт", "Ср", "Чт", "Пт", "Сб"],
     de: ["So", "Mo", "Di", "Mi", "Do", "Fr", "Sa"],
   };
-
+ 
   const userLang = navigator.language || navigator.userLanguage;
   const langCode = userLang.slice(0, 2);
   const weekDay = weekDays[langCode] || weekDays.en;
-
+ 
   const year = new Date().getFullYear() % 100;
-
+ 
   // 日付をフォーマットされた文字列に変換
   const toFormattedDateString = function (date) {
     const pad = (num) => ("0" + num).slice(-2);
     return `${pad(date.getHours())}:${pad(date.getMinutes())}:${pad(date.getSeconds())}･${pad(date.getMonth() + 1)}/${pad(date.getDate())}/${year}, ${weekDay[date.getDay()]}`;
   };
-
+ 
   const updateTimestamps = function () {
     document
       .querySelectorAll(
@@ -174,9 +172,9 @@
         a.removeChild(e);
       });
   };
-
+ 
   setInterval(updateTimestamps, 1000);
-
+ 
   // -----------------------------------------------------------------------------------
   // サイドバーに時間、日付を表示(HH:MM:SS,mm/dd/yy, week)
   // -----------------------------------------------------------------------------------
@@ -184,7 +182,7 @@
     const nav = document.querySelector(
       'div[class="css-175oi2r r-vacyoi r-ttdzmv"]'
     );
-
+ 
     if (nav && !document.getElementById(`${type}`)) {
       const div = document.createElement("div");
       div.id = `${type}`;
@@ -199,7 +197,7 @@
         "r-1loqt21",
         "r-1ny4l3l"
       );
-
+ 
       const container = document.createElement("div");
       container.id = `${type}__container`;
       container.classList.add(
@@ -214,7 +212,7 @@
         "r-6416eg"
       );
       div.appendChild(container);
-
+ 
       const icon = document.createElement("div");
       icon.id = `${type}__container__icon`;
       icon.classList.add("css-175oi2r");
@@ -223,7 +221,7 @@
         type === "time"
           ? '<i class="fa-regular fa-clock" style="width: 26.25px; height: 26.25px;"></i>'
           : '<i class="fa-solid fa-calendar-days" style="width: 26.25px; height: 26.25px;"></i>';
-
+ 
       const text = document.createElement("div");
       text.id = `${type}__container__text`;
       text.classList.add(
@@ -242,7 +240,7 @@
         "r-nazi8o"
       );
       container.appendChild(text);
-
+ 
       const textContent = document.createElement("span");
       textContent.id = `${type}__text__content`;
       textContent.classList.add(
@@ -253,27 +251,27 @@
         "r-poiln3"
       );
       text.appendChild(textContent);
-
+ 
       function updateInfo() {
         textContent.textContent =
           type === "time"
             ? `${"0" + new Date().getHours()}:${("0" + new Date().getMinutes()).slice(-2)}:${("0" + new Date().getSeconds()).slice(-2)}`
             : `${new Date().getMonth() + 1}/${new Date().getDate()}/${year}, ${weekDay[new Date().getDay()]}`;
       }
-
+ 
       updateInfo();
       if (type === "time") {
         setInterval(updateInfo, 1000);
       }
-
+ 
       nav.appendChild(div);
     }
   }
-
+ 
   window.addEventListener("load", function () {
     createInfo("time");
     createInfo("date");
-
+ 
     const observer = new MutationObserver(() => {
       createInfo("time");
       createInfo("date");
