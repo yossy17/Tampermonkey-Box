@@ -13,7 +13,7 @@
 // @description:ko      트위터 표시를 개선하는 스크립트
 // @description:ru      Скрипт для улучшения отображения Twitter
 // @description:de      Skript zur Verbesserung der Twitter-Anzeige
-// @version             1.0.2
+// @version             1.0.3
 // @author              Yos_sy17
 // @match               https://x.com/*
 // @namespace           http://tampermonkey.net/
@@ -160,18 +160,18 @@
   const updateTimestamps = function () {
     document
       .querySelectorAll(
-      'main div[data-testid="primaryColumn"] section article a[href*="/status/"] time'
-    )
+        'main div[data-testid="primaryColumn"] section article a[href*="/status/"] time'
+      )
       .forEach(function (e) {
-      const a = e.parentNode;
-      const span = document.createElement("span");
-      const s0 = e.getAttribute("datetime");
-      const s1 = toFormattedDateString(new Date(s0));
-      span.textContent = s1;
-      span.style.pointerEvents = "none";
-      a.appendChild(span);
-      a.removeChild(e);
-    });
+        const a = e.parentNode;
+        const span = document.createElement("span");
+        const s0 = e.getAttribute("datetime");
+        const s1 = toFormattedDateString(new Date(s0));
+        span.textContent = s1;
+        span.style.pointerEvents = "none";
+        a.appendChild(span);
+        a.removeChild(e);
+      });
   };
 
   setInterval(updateTimestamps, 1000);
@@ -254,10 +254,12 @@
       text.appendChild(textContent);
 
       function updateInfo() {
+        const date = new Date();
+        const year = date.getFullYear().toString().slice(-2);
         textContent.textContent =
           type === "time"
-            ? `${"0" + new Date().getHours()}:${("0" + new Date().getMinutes()).slice(-2)}:${("0" + new Date().getSeconds()).slice(-2)}`
-            : `${new Date().getMonth() + 1}/${new Date().getDate()}/${year}, ${weekDay[new Date().getDay()]}`;
+            ? `${("0" + date.getHours()).slice(-2)}:${("0" + date.getMinutes()).slice(-2)}:${("0" + date.getSeconds()).slice(-2)}`
+            : `${date.getMonth() + 1}/${date.getDate()}/${year}, ${weekDay[date.getDay()]}`;
       }
 
       updateInfo();
