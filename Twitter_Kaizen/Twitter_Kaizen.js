@@ -13,7 +13,7 @@
 // @description:ko      트위터 표시를 개선하는 스크립트
 // @description:ru      Скрипт для улучшения отображения Twitter
 // @description:de      Skript zur Verbesserung der Twitter-Anzeige
-// @version             1.0.1
+// @version             1.0.2
 // @author              Yos_sy17
 // @match               https://x.com/*
 // @namespace           http://tampermonkey.net/
@@ -112,6 +112,10 @@
         .r-1hycxz {
           width: 250px !important;
         }
+        .css-175oi2r.r-kemksi.r-1kqtdi0.r-th6na.r-1phboty.r-1dqxon3.r-1hycxz {
+          width: 350px !important;
+        }
+
 
         /* -----------------------------------------------------------------------------------
         サイドバーのWhat’s happeningのステータスを見やすく
