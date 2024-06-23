@@ -13,7 +13,7 @@
 // @description:ko      트위터 표시를 개선하는 스크립트
 // @description:ru      Скрипт для улучшения отображения Twitter
 // @description:de      Skript zur Verbesserung der Twitter-Anzeige
-// @version             1.0.2
+// @version             1.0.3
 // @author              Yos_sy17
 // @match               https://x.com/*
 // @namespace           http://tampermonkey.net/
@@ -116,7 +116,6 @@
           width: 350px !important;
         }
 
-
         /* -----------------------------------------------------------------------------------
         サイドバーのWhat’s happeningのステータスを見やすく
         ----------------------------------------------------------------------------------- */
@@ -129,7 +128,7 @@
         }
 
         /* -----------------------------------------------------------------------------------
-       時計、日付のフォントカラーを変更
+        時計、日付のフォントカラーを変更
         ----------------------------------------------------------------------------------- */
 
         #date__container__text,
@@ -164,17 +163,17 @@
   const updateTimestamps = function () {
     document
       .querySelectorAll(
-        'main div[data-testid="primaryColumn"] section article a[href*="/status/"] time'
+        'main div[data-testid="primaryColumn"] section article a[href*="/status/"] time, div.css-175oi2r.r-18u37iz.r-1q142lx div.css-175oi2r.r-1d09ksm.r-18u37iz.r-1wbh5a2 time'
       )
       .forEach(function (e) {
-        const a = e.parentNode;
+        const parent = e.parentNode;
         const span = document.createElement("span");
         const s0 = e.getAttribute("datetime");
         const s1 = toFormattedDateString(new Date(s0));
         span.textContent = s1;
         span.style.pointerEvents = "none";
-        a.appendChild(span);
-        a.removeChild(e);
+        parent.appendChild(span);
+        parent.removeChild(e);
       });
   };
 
