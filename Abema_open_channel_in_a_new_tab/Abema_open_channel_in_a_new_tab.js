@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Abema open channel in a new tab
-// @description  abemaのチャンネルを別タブで開くスクリプトです。
+// @description  abemaのチャンネルを別タブで開くスクリプト
 // @version      1.0.0
 // @author       Yos_sy17
 // @match        https://abema.tv/*
@@ -9,6 +9,8 @@
 // @license      MIT
 // @run-at       document-start
 // @grant        none
+// @downloadURL https://update.greasyfork.org/scripts/498739/Abema%20open%20channel%20in%20a%20new%20tab.user.js
+// @updateURL https://update.greasyfork.org/scripts/498739/Abema%20open%20channel%20in%20a%20new%20tab.meta.js
 // ==/UserScript==
 
 (function () {
