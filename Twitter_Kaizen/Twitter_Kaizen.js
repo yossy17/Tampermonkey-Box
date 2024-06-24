@@ -180,16 +180,16 @@
   setInterval(updateTimestamps, 1000);
 
   // -----------------------------------------------------------------------------------
-  // サイドバーに時間、日付を表示(HH:MM:SS,mm/dd/yy, week)
+  // サイドバーに時間、日付を表示(HH:MM:SS, mm/dd/yy, week)
   // -----------------------------------------------------------------------------------
   function createInfo(type) {
     const nav = document.querySelector(
       'div[class="css-175oi2r r-vacyoi r-ttdzmv"]'
     );
 
-    if (nav && !document.getElementById(`${type}`)) {
+    if (nav && !document.getElementById(type)) {
       const div = document.createElement("div");
-      div.id = `${type}`;
+      div.id = type;
       div.classList.add(
         "css-175oi2r",
         "r-6koalj",
@@ -284,4 +284,60 @@
     });
     observer.observe(document.body, { childList: true, subtree: true });
   });
+
+  // -----------------------------------------------------------------------------------
+  // 動画プレイヤーをデフォルトに戻す
+  // -----------------------------------------------------------------------------------
+  const body = document.body;
+
+  if (body) {
+    const mutationObserver = new MutationObserver(() => {
+      const videoContainer = body.querySelector(
+        'div[data-testid="videoComponent"]:not(.enhanced-video)'
+      );
+      if (videoContainer) {
+        videoContainer.classList.add("enhanced-video");
+        setTimeout(() => setupDefaultVideoPlayer(videoContainer), 100);
+      }
+    });
+
+    mutationObserver.observe(body, {
+      subtree: true,
+      childList: true,
+    });
+  }
+
+  function setupDefaultVideoPlayer(container) {
+    const video = container.querySelector("div:first-child > div > video");
+    if (video) {
+      video.controls = true;
+      video.removeAttribute("disablepictureinpicture");
+      video.muted = false;
+
+      const onClick = (e) => {
+        e.preventDefault();
+        video
+          .play()
+          .then(() => {
+            video.muted = false;
+          })
+          .catch((error) => console.error("Video playback error:", error));
+
+        const onVolumeChange = (e) => {
+          if (e.target.muted) {
+            e.target.muted = false;
+          }
+          e.target.removeEventListener("volumechange", onVolumeChange);
+        };
+
+        e.target.addEventListener("volumechange", onVolumeChange);
+        video.removeEventListener("click", onClick);
+      };
+
+      video.addEventListener("click", onClick);
+
+      container.parentElement.appendChild(video);
+      container.remove();
+    }
+  }
 })();
