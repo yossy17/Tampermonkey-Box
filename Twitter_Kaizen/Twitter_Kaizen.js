@@ -13,7 +13,7 @@
 // @description:ko      트위터 표시를 개선하는 스크립트
 // @description:ru      Скрипт для улучшения отображения Twitter
 // @description:de      Skript zur Verbesserung der Twitter-Anzeige
-// @version             1.0.3
+// @version             1.0.4
 // @author              Yos_sy17
 // @match               https://x.com/*
 // @namespace           http://tampermonkey.net/
@@ -22,8 +22,6 @@
 // @run-at              document-start
 // @require             https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/js/all.min.js
 // @grant               GM_addStyle
-// @downloadURL https://update.greasyfork.org/scripts/498115/Twitter%20kaizen.user.js
-// @updateURL https://update.greasyfork.org/scripts/498115/Twitter%20kaizen.meta.js
 // ==/UserScript==
 
 (function () {

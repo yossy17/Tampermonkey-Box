@@ -2,10 +2,10 @@
 
 ## Twitter Kaizen
 
-https://github.com/yossy17/Tampermonkey-Box/blob/main/Twitter_Kaizen/Twitter_Kaizen.js
+https://greasyfork.org/ja/scripts/498115-twitter-kaizen
 
 ---
 
 ## Abema open channel in a new tab
 
-https://github.com/yossy17/Tampermonkey-Box/blob/main/Abema_open_channel_in_a_new_tab/Abema_open_channel_in_a_new_tab.js
+https://greasyfork.org/ja/scripts/498739-abema-open-channel-in-a-new-tab
