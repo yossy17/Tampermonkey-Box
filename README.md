@@ -1,11 +1,11 @@
 # 自作Userscriptのため場
 
-[![Yos_sy17](https://img.shields.io/twitter/url/https/twitter.com/cloudposse.svg?style=social&label=%20%40yos_sy17)](https://twitter.com/yos_sy17)
+[![@Yos_sy17](https://img.shields.io/badge/@yos_sy17-000000.svg?logo=x&style=flat)](https://twitter.com/yos_sy17)
+
 
 ### 01 Twitter Kaizen
 #### Twitterの表示を改善するスクリプト
 [![Greasy Fork](https://img.shields.io/badge/greasyfork-670000.svg?logo=greasyfork&style=for-the-badge)](https://greasyfork.org/ja/scripts/498115-twitter-kaizen)
-
 
 ---
 
