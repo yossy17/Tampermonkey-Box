@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name                Link Editor
-// @description         指定された要素にtitle属性を追加し、関連する<a>タグにtarget属性を追加します
+// @description         Customize link titles and behavior with a user-friendly interface. Add tooltips and control link opening in new tabs across websites.
 // @version             1.0.0
 // @author              Yos_sy17
 // @match               *://*/*
