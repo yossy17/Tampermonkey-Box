@@ -1,6 +1,6 @@
 # 自作Userscriptのため場
 
-[![@Yos_sy17](https://img.shields.io/badge/@yos_sy17-000000.svg?logo=x&style=flat)](https://twitter.com/yos_sy17)
+[![@Yos_sy17](https://img.shields.io/badge/@yos_sy17-000000.svg?logo=x&style=for-the-badge)](https://twitter.com/yos_sy17)
 
 
 ### 01 Twitter Kaizen
