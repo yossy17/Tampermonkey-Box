@@ -10,15 +10,11 @@
     <title>Link_Editor</title>
     <link rel="stylesheet" href="./Setting_Panel.css" />
     <body>
-      <div
-        id="linkEditor"
-        class="linkEditor"
-        style="transform: translate3d(171px, 168px, 0px)"
-      >
+      <div id="linkEditor" class="linkEditor">
         <div class="linkEditor__header">
           <h3 class="linkEditor__header__title">⚙️Setting</h3>
           <span id="totalCount" class="linkEditor__header__totalCount"
-            >Total: 4</span
+            >Total: 5</span
           >
           <button class="linkEditor__header__closeBtn">×</button>
         </div>
@@ -30,7 +26,7 @@
                 type="text"
                 class="linkEditor__content__pair__title"
                 placeholder="Title"
-                value="MissAV"
+                value="Teams"
             /></label>
             <label
               >Selector:
@@ -38,7 +34,7 @@
                 type="text"
                 class="linkEditor__content__pair__selector"
                 placeholder="Selector"
-                value="a.text-secondary.group-hover\:text-primary"
+                value="div.message-body-content.clearfix.html"
             /></label>
             <label
               >URLPattern:
@@ -46,7 +42,7 @@
                 type="text"
                 class="linkEditor__content__pair__urlPattern"
                 placeholder="URLPattern"
-                value="https://missav.com/*"
+                value="https://teams.microsoft.com/*"
             /></label>
             <label
               ><input
@@ -59,7 +55,6 @@
               <input
                 type="checkbox"
                 class="linkEditor__content__pair__openInNewTabBtn"
-                checked=""
               />
               Open link in a new tab
             </label>
@@ -104,15 +99,13 @@
               ><input
                 type="checkbox"
                 class="linkEditor__content__pair__onOffSwitchingBtn"
+                checked=""
               />ON/OFF</label
             >
-            <label
-              class="linkEditor__content__pair__openInNewTabLabel disabled"
-            >
+            <label class="linkEditor__content__pair__openInNewTabLabel">
               <input
                 type="checkbox"
                 class="linkEditor__content__pair__openInNewTabBtn"
-                disabled=""
               />
               Open link in a new tab
             </label>
@@ -208,16 +201,66 @@
               ><input
                 type="checkbox"
                 class="linkEditor__content__pair__onOffSwitchingBtn"
+                checked=""
               />ON/OFF</label
             >
-            <label
-              class="linkEditor__content__pair__openInNewTabLabel disabled"
-            >
+            <label class="linkEditor__content__pair__openInNewTabLabel">
               <input
                 type="checkbox"
                 class="linkEditor__content__pair__openInNewTabBtn"
                 checked=""
-                disabled=""
+              />
+              Open link in a new tab
+            </label>
+            <div class="linkEditor__content__pair__ctrlBtn">
+              <button class="linkEditor__content__pair__ctrlBtn__moveUpBtn">
+                ▲
+              </button>
+              <button class="linkEditor__content__pair__ctrlBtn__moveDownBtn">
+                ▼
+              </button>
+              <button class="linkEditor__content__pair__ctrlBtn__removeBtn">
+                🗑️
+              </button>
+            </div>
+          </div>
+          <div class="linkEditor__content__pair">
+            <label
+              >Title:
+              <input
+                type="text"
+                class="linkEditor__content__pair__title"
+                placeholder="Title"
+                value="Amazon Title"
+            /></label>
+            <label
+              >Selector:
+              <input
+                type="text"
+                class="linkEditor__content__pair__selector"
+                placeholder="Selector"
+                value="a.a-link-normal.s-underline-text.s-underline-link-text.s-link-style.a-text-normal"
+            /></label>
+            <label
+              >URLPattern:
+              <input
+                type="text"
+                class="linkEditor__content__pair__urlPattern"
+                placeholder="URLPattern"
+                value="https://www.amazon.co.jp/*"
+            /></label>
+            <label
+              ><input
+                type="checkbox"
+                class="linkEditor__content__pair__onOffSwitchingBtn"
+                checked=""
+              />ON/OFF</label
+            >
+            <label class="linkEditor__content__pair__openInNewTabLabel">
+              <input
+                type="checkbox"
+                class="linkEditor__content__pair__openInNewTabBtn"
+                checked=""
               />
               Open link in a new tab
             </label>

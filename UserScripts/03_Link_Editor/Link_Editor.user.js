@@ -18,58 +18,49 @@
   "use strict";
 
   // 定数
-  const STORAGE_KEY = "linkEditorSelectorTitlePairs"; // ローカルストレージのキー
-  const UI_ID = "linkEditor"; // UIの基本ID
-  const SHORTCUT_KEY = {
-    altKey: true,
-    keyCode: 48, // '0'キーのKeyCode
-  };
+  const STORAGE_KEY = "linkEditorSelectorTitlePairs";
+  const UI_ID = "linkEditor";
+  const SHORTCUT_KEY = { altKey: true, keyCode: 48 }; // '0'キー。設定パネルを開くショートカットキー
 
   // グローバル状態
   let selectorTitlePairs = []; // セレクタとタイトルのペアを保存する配列
   let settingsPanel = null; // 設定パネルのDOM要素
 
   // ユーティリティ関数
-  // 単一要素の取得
-  const $ = (selector, context = document) => context.querySelector(selector);
-  // 複数要素の取得
+  const $ = (selector, context = document) => context.querySelector(selector); // 単一要素の取得
   const $$ = (selector, context = document) =>
-    context.querySelectorAll(selector);
+    context.querySelectorAll(selector); // 複数要素の取得
 
   // ストレージ関数
-  // ローカルストレージからデータを読み込む
   function loadSelectorTitlePairs() {
+    // ローカルストレージからデータを読み込む
     const storedData = GM_getValue(STORAGE_KEY, []);
     selectorTitlePairs = Array.isArray(storedData) ? storedData : [];
   }
 
-  // ローカルストレージにデータを保存する
   function saveSelectorTitlePairs() {
+    // ローカルストレージにデータを保存する
     GM_setValue(STORAGE_KEY, selectorTitlePairs);
   }
 
   // コア機能
-  // 要素にtitle属性と関連する<a>タグにtarget属性を追加する
   function addTitleAndTargetToElements() {
+    // 要素にtitle属性と関連する<a>タグにtarget属性を追加する
     selectorTitlePairs.forEach(
       ({ title, selector, isEnabled, urlPattern, openInNewTab }) => {
         if (matchesCurrentURL(urlPattern)) {
           $$(selector).forEach((element) => {
             const innerText = element.textContent.trim();
             if (innerText) {
-              if (isEnabled) {
-                element.setAttribute("title", innerText);
-              } else {
-                element.removeAttribute("title");
-              }
+              isEnabled
+                ? element.setAttribute("title", innerText)
+                : element.removeAttribute("title");
             }
             const relatedATag = element.closest("a");
             if (relatedATag) {
-              if (isEnabled && openInNewTab) {
-                relatedATag.setAttribute("target", "_blank");
-              } else {
-                relatedATag.removeAttribute("target");
-              }
+              isEnabled && openInNewTab
+                ? relatedATag.setAttribute("target", "_blank")
+                : relatedATag.removeAttribute("target");
             }
           });
         }
@@ -77,8 +68,8 @@
     );
   }
 
-  // DOM変更を監視し、新しい要素に対して処理を適用する
   function observeDOMChanges() {
+    // DOM変更を監視し、新しい要素に対して処理を適用する
     const observer = new MutationObserver((mutations) => {
       if (
         mutations.some(
@@ -89,12 +80,10 @@
         addTitleAndTargetToElements();
       }
     });
-
     observer.observe(document.body, { childList: true, subtree: true });
   }
 
   // UI関数
-  // セレクタとタイトルのペアを表す要素を作成する
   function createPairElement({
     title = "",
     selector = "",
@@ -102,10 +91,10 @@
     urlPattern = getCurrentURLPattern(),
     openInNewTab = false,
   } = {}) {
+    // セレクタとタイトルのペアを表す要素を作成する
     const pairDiv = document.createElement("div");
     pairDiv.className = `${UI_ID}__content__pair`;
 
-    // ペア要素のHTML構造を設定
     pairDiv.innerHTML = `
       <label>Title: <input type="text" class="${UI_ID}__content__pair__title" placeholder="Title" value="${title}"></label>
       <label>Selector: <input type="text" class="${UI_ID}__content__pair__selector" placeholder="Selector" value="${selector}"></label>
@@ -136,13 +125,8 @@
           const openInNewTabBtn = pairDiv.querySelector(
             `.${UI_ID}__content__pair__openInNewTabBtn`
           );
-          if (e.target.checked) {
-            openInNewTabLabel.classList.remove("disabled");
-            openInNewTabBtn.disabled = false;
-          } else {
-            openInNewTabLabel.classList.add("disabled");
-            openInNewTabBtn.disabled = true;
-          }
+          openInNewTabLabel.classList.toggle("disabled", !e.target.checked);
+          openInNewTabBtn.disabled = !e.target.checked;
         }
         updateSelectorTitlePairs();
         addTitleAndTargetToElements();
@@ -170,8 +154,8 @@
     return pairDiv;
   }
 
-  // ペア要素を上下に移動する
   function movePair(pairDiv, direction) {
+    // ペア要素を上下に移動する
     const parent = pairDiv.parentNode;
     const index = Array.from(parent.children).indexOf(pairDiv);
     const newIndex = index + direction;
@@ -185,8 +169,8 @@
     }
   }
 
-  // セレクタとタイトルのペアを更新する
   function updateSelectorTitlePairs() {
+    // セレクタとタイトルのペアを更新する
     selectorTitlePairs = Array.from($$(".linkEditor__content__pair"))
       .map((pairElement) => ({
         title: $(`.${UI_ID}__content__pair__title`, pairElement).value.trim(),
@@ -216,13 +200,13 @@
     }
   }
 
-  // 現在のURLパターンを取得する
   function getCurrentURLPattern() {
+    // 現在のURLパターンを取得する（ドメイン + ワイルドカード）
     return `${window.location.origin}/*`;
   }
 
-  // 現在のURLがパターンにマッチするかチェックする
   function matchesCurrentURL(urlPattern) {
+    // 現在のURLがパターンにマッチするかチェックする
     try {
       return new RegExp(urlPattern).test(window.location.href);
     } catch (error) {
@@ -231,8 +215,8 @@
     }
   }
 
-  // 設定UIを開く
   function openSettingsUI() {
+    // 設定UIを開く
     if (settingsPanel) {
       settingsPanel.style.display =
         settingsPanel.style.display === "none" ? "block" : "none";
@@ -242,13 +226,12 @@
     }
   }
 
-  // 設定UIを作成する
   function createSettingsUI() {
+    // 設定UIを作成する
     const settingsDiv = document.createElement("div");
     settingsDiv.id = UI_ID;
     settingsDiv.className = UI_ID;
 
-    // 設定パネルのHTML構造を設定
     settingsDiv.innerHTML = `
       <div class="${UI_ID}__header">
         <h3 class="${UI_ID}__header__title">⚙️Setting</h3>
@@ -261,190 +244,196 @@
 
     // スタイルを追加
     GM_addStyle(`
-      @import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
-      .linkEditor {
-        font-family: "Roboto", sans-serif;
-        user-select: none;
-        -moz-user-select: none;
-        -webkit-user-select: none;
-        -ms-user-select: none;
-        width: 1000px;
-        min-width: 300px;
-        font-weight: 400;
-        font-size: 12px;
-        font-style: normal;
-        margin: 0;
-        padding: 0 15px 15px;
-        background-color: #fff;
-        color: #333;
-        position: fixed;
-        top: 20px;
-        left: 20px;
-        border: 1px solid #ccc;
-        border-radius: 8px;
-        z-index: calc(infinity);
-        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.15);
-        pointer-events: auto;
-        resize: horizontal;
-        overflow: auto;
-      }
-      .linkEditor__header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        height: 65px;
-        cursor: grab;
-        border-bottom: 1px solid #c9c9c9;
-        resize: horizontal;
-      }
-      .linkEditor__header:active {
-        cursor: grabbing;
-      }
-      .linkEditor__header__title {
-        font-size: 18px;
-        color: #333;
-      }
-      .linkEditor__header__totalCount {
-        font-size: 16px;
-        color: #333;
-      }
-      .linkEditor__header__closeBtn {
-        font-size: 20px;
-        cursor: pointer;
-        color: #888;
-        transition: color 0.3s ease;
-      }
-      .linkEditor__header__closeBtn:hover {
-        color: #555;
-      }
-      .linkEditor__content {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-        gap: 15px;
-        margin-block: 10px;
-        min-width: 250px;
-        height: 480px;
-        overflow-y: auto;
-        scroll-snap-type: y mandatory;
-      }
-      .linkEditor__content__pair {
-        display: flex;
-        justify-content: center;
-        flex-direction: column;
-        height: 230px;
-        border: 1px solid #ccc;
-        padding: 0 8px;
-        border-radius: 4px;
-        background-color: #f9f9f9;
-        scroll-snap-align: start;
-      }
-      .linkEditor__content__pair label {
-        font-weight: bold;
-        margin-bottom: 4px;
-      }
-      .linkEditor__content__pair label:nth-child(-n+3) {
-        display: flex;
-        flex-flow: column;
-      }
-      .linkEditor__content__pair label:nth-child(n+4) {
-        display: flex;
-        align-items: center;
-      }
-      .linkEditor__content__pair__openInNewTabLabel.disabled {
-        opacity: 0.5;
-        cursor: not-allowed;
-      }
-      .linkEditor__content__pair__openInNewTabLabel.disabled input {
-        pointer-events: none;
-        cursor: not-allowed;
-      }
-      .linkEditor__content__pair__title, .linkEditor__content__pair__selector, .linkEditor__content__pair__urlPattern {
-        padding: 5px;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-      }
-      .linkEditor__content__pair__ctrlBtn {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-      }
-      .linkEditor__content__pair__ctrlBtn__removeBtn {
-        margin-left: auto;
-      }
-      .linkEditor__content__pair__ctrlBtn__moveUpBtn {
-        margin-right: 5px;
-      }
-      .linkEditor__content__pair__ctrlBtn__moveDownBtn {
-        margin-left: 5px;
-      }
-      .linkEditor__content__pair__ctrlBtn__moveUpBtn, .linkEditor__content__pair__ctrlBtn__moveDownBtn, .linkEditor__content__pair__ctrlBtn__removeBtn {
-        background-color: #f9f9f9;
-        padding: 6px 8px;
-        border: 1px solid #ccc;
-        border-radius: 8px;
-        cursor: pointer;
-      }
-      .linkEditor__content__pair__ctrlBtn__moveUpBtn:hover, .linkEditor__content__pair__ctrlBtn__moveDownBtn:hover, .linkEditor__content__pair__ctrlBtn__removeBtn:hover {
-        background-color: #f0f0f0;
-        color: #555;
-      }
-      .linkEditor__addBtn {
-        position: relative;
-        bottom: 0;
-        padding: 8px 12px;
-        background-color: #f0f0f0;
-        border: 1px solid #ddd;
-        border-radius: 4px;
-        cursor: pointer;
-      }
-      .linkEditor__addBtn:hover {
-        background-color: #e0e0e0;
-      }/*# sourceMappingURL=Setting_Panel.css.map */
+@import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
+.linkEditor {
+  font-family: "Roboto", sans-serif !important;
+  user-select: none !important;
+  -moz-user-select: none !important;
+  -webkit-user-select: none !important;
+  -ms-user-select: none !important;
+  width: 1000px;
+  min-width: 300px !important;
+  font-weight: 400 !important;
+  font-size: 12px !important;
+  font-style: normal !important;
+  margin: 0 !important;
+  padding: 0 15px 15px !important;
+  background-color: #fff !important;
+  color: #333 !important;
+  position: fixed !important;
+  top: 20px !important;
+  left: 20px !important;
+  border: 1px solid #ccc !important;
+  border-radius: 8px !important;
+  z-index: calc(infinity) !important;
+  box-shadow:
+    0 10px 15px -3px rgba(0, 0, 0, 0.3),
+    0 4px 6px -2px rgba(0, 0, 0, 0.15) !important;
+  pointer-events: auto !important;
+  resize: horizontal !important;
+  overflow: auto !important;
+}
+.linkEditor__header {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  height: 65px !important;
+  cursor: grab !important;
+  border-bottom: 1px solid #c9c9c9 !important;
+  resize: horizontal !important;
+}
+.linkEditor__header:active {
+  cursor: grabbing !important;
+}
+.linkEditor__header__title {
+  font-size: 18px !important;
+  color: #333 !important;
+}
+.linkEditor__header__totalCount {
+  font-size: 16px !important;
+  color: #333 !important;
+}
+.linkEditor__header__closeBtn {
+  font-size: 20px !important;
+  cursor: pointer !important;
+  color: #888 !important;
+  transition: color 0.3s ease !important;
+}
+.linkEditor__header__closeBtn:hover {
+  color: #555 !important;
+}
+.linkEditor__content {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)) !important;
+  gap: 15px !important;
+  margin-block: 10px !important;
+  min-width: 250px !important;
+  height: 480px !important;
+  overflow-y: auto !important;
+  scroll-snap-type: y mandatory !important;
+}
+.linkEditor__content__pair {
+  display: flex !important;
+  justify-content: center !important;
+  flex-direction: column !important;
+  height: 230px !important;
+  border: 1px solid #ccc !important;
+  padding: 0 8px !important;
+  border-radius: 4px !important;
+  background-color: #f9f9f9 !important;
+  scroll-snap-align: start !important;
+}
+.linkEditor__content__pair label {
+  font-weight: bold !important;
+  margin-bottom: 4px !important;
+}
+.linkEditor__content__pair label:nth-child(-n + 3) {
+  display: flex !important;
+  flex-flow: column !important;
+}
+.linkEditor__content__pair label:nth-child(n + 4) {
+  display: flex !important;
+  align-items: center !important;
+}
+.linkEditor__content__pair__openInNewTabLabel.disabled {
+  opacity: 0.5 !important;
+  cursor: not-allowed !important;
+}
+.linkEditor__content__pair__openInNewTabLabel.disabled input {
+  pointer-events: none !important;
+  cursor: not-allowed !important;
+}
+.linkEditor__content__pair__title,
+.linkEditor__content__pair__selector,
+.linkEditor__content__pair__urlPattern {
+  padding: 5px !important;
+  border: 1px solid #ccc !important;
+  border-radius: 5px !important;
+}
+.linkEditor__content__pair__ctrlBtn {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+}
+.linkEditor__content__pair__ctrlBtn__removeBtn {
+  margin-left: auto !important;
+}
+.linkEditor__content__pair__ctrlBtn__moveUpBtn {
+  margin-right: 5px !important;
+}
+.linkEditor__content__pair__ctrlBtn__moveDownBtn {
+  margin-left: 5px !important;
+}
+.linkEditor__content__pair__ctrlBtn__moveUpBtn,
+.linkEditor__content__pair__ctrlBtn__moveDownBtn,
+.linkEditor__content__pair__ctrlBtn__removeBtn {
+  background-color: #f9f9f9 !important;
+  padding: 6px 8px !important;
+  border: 1px solid #ccc !important;
+  border-radius: 8px !important;
+  cursor: pointer !important;
+}
+.linkEditor__content__pair__ctrlBtn__moveUpBtn:hover,
+.linkEditor__content__pair__ctrlBtn__moveDownBtn:hover,
+.linkEditor__content__pair__ctrlBtn__removeBtn:hover {
+  background-color: #f0f0f0 !important;
+  color: #555 !important;
+}
+.linkEditor__addBtn {
+  position: relative !important;
+  bottom: 0 !important;
+  padding: 8px 12px !important;
+  background-color: #f0f0f0 !important;
+  border: 1px solid #ddd !important;
+  border-radius: 4px !important;
+  cursor: pointer !important;
+}
+.linkEditor__addBtn:hover {
+  background-color: #e0e0e0 !important;
+} /*# sourceMappingURL=Setting_Panel.css.map */
+
     `);
 
     document.body.appendChild(settingsDiv);
 
-    // 閉じるボタンのイベントリスナー
-    settingsDiv
-      .querySelector(`.${UI_ID}__header__closeBtn`)
-      .addEventListener("click", () => {
+    // イベントリスナー
+    $(`.${UI_ID}__header__closeBtn`, settingsDiv).addEventListener(
+      "click",
+      () => {
         settingsDiv.style.display = "none";
-      });
+      }
+    );
 
-    // 追加ボタンのイベントリスナー
-    settingsDiv
-      .querySelector(`#${UI_ID}__addBtn`)
-      .addEventListener("click", () => {
-        const settingsContent = settingsDiv.querySelector(`.${UI_ID}__content`);
-        settingsContent.appendChild(
-          createPairElement({ urlPattern: getCurrentURLPattern() })
-        );
-        updateSelectorTitlePairs();
-      });
+    $(`#${UI_ID}__addBtn`, settingsDiv).addEventListener("click", () => {
+      const settingsContent = $(`.${UI_ID}__content`, settingsDiv);
+      settingsContent.appendChild(
+        createPairElement({ urlPattern: getCurrentURLPattern() })
+      );
+      updateSelectorTitlePairs();
+    });
 
-    // ドラッグ可能に設定
     setupDraggable(settingsDiv);
 
     return settingsDiv;
   }
 
-  // 設定内容を更新する
   function updateSettingsContent() {
+    // 設定内容を更新する
     if (!settingsPanel) return;
 
-    const settingsContent = settingsPanel.querySelector(`.${UI_ID}__content`);
+    const settingsContent = $(`.${UI_ID}__content`, settingsPanel);
     settingsContent.innerHTML = "";
 
     selectorTitlePairs.forEach((pair) => {
       settingsContent.appendChild(createPairElement(pair));
     });
 
-    settingsPanel.querySelector("#totalCount").textContent =
+    $("#totalCount", settingsPanel).textContent =
       `Total: ${selectorTitlePairs.length}`;
   }
 
-  // 要素をドラッグ可能にする
   function setupDraggable(element) {
+    // 要素をドラッグ可能にする
     let isDragging = false;
     let initialX,
       initialY,
@@ -481,14 +470,13 @@
     observeDOMChanges(); // DOM変更の監視を開始
     addTitleAndTargetToElements(); // 初期要素に属性を追加
     GM_registerMenuCommand("⚙️Open Setting", openSettingsUI); // メニューコマンドを登録
-    // ショートカットキーのイベントリスナーを追加
     document.addEventListener("keydown", (e) => {
+      // ショートカットキーのイベントリスナーを追加
       if (e.altKey && e.keyCode === SHORTCUT_KEY.keyCode) {
         openSettingsUI();
       }
     });
   }
 
-  // スクリプトの実行を開始
-  init();
+  init(); // スクリプトの初期化を実行
 })();
